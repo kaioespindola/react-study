@@ -1,7 +1,10 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Expenses from './components/Expenses/Expenses';
 import NewExpense from './components/NewExpense/NewExpense';
 import './App.css';
+
+import Board from './components/UI/Board';
+import classNames from "classnames";
 
 const App = () => {
 
@@ -41,16 +44,64 @@ const App = () => {
         }
       ]
     })
+  };
+
+  // 15 Game Puzzle
+
+  const checkNumber = (number) => {
+    return number === 0 ? 'empty' : 'tile';
   }
 
   const startArray = [1, 2, 0, 4, 5, 6, 3, 8, 9, 10, 7, 12, 13, 14, 11, 15];
+  const endArray = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 0];
+
+  const [currentArray, setNewArray] = useState(startArray);
+
+  useEffect(() => {
+    checkIfArraysAreEqual();
+  });
+
+  // Logic from the game
+
+  const getCurrentIndex = (nuumber) => {
+    return currentArray.findIndex(item => item === nuumber);
+  }
+
+  const swapNumbersInArray = (array, from, to) => {
+    let newArray = [...array];
+    [newArray[from], newArray[to]] = [newArray[to], newArray[from]];
+    return newArray;
+  }
+
+  const handleClickedNumber = (clickedNumber) => {
+    const zeroPosition = getCurrentIndex(0);
+    const clickedPosition = getCurrentIndex(clickedNumber);
+    const newArray = swapNumbersInArray(currentArray, zeroPosition, clickedPosition);
+    setNewArray(newArray);
+  }
+
+  const checkIfArraysAreEqual = () => {
+    if(JSON.stringify(currentArray) == JSON.stringify(endArray)) {
+      alert('TA IGUAL');
+    }
+  }
 
   return (
-    <div>
-      <NewExpense onAddExpense={addExpenseHandler}/>
+    <div className="container">
+      <Board>
+        {currentArray.map((number, key) => {
+          return (
+            <div
+              key={key}
+              className={classNames(checkNumber(number))}
+              onClick={() => handleClickedNumber(number)}>{number}</div>
+          );
+        })}
+      </Board>
+      {/* <NewExpense onAddExpense={addExpenseHandler}/>
       <Expenses
         listOfExpenses={expensesList}>
-      </Expenses>
+      </Expenses> */}
     </div>
   );
 }

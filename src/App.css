@@ -1,0 +1,28 @@
+.container {
+    max-width: 600px;
+}
+
+.tile {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    background-color: khaki;
+    padding: 50px;
+    border-radius: 8px;
+    border: solid 1px black;
+    margin: 5px;
+}
+
+.empty {
+    visibility: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    background-color: khaki;
+    padding: 50px;
+    border-radius: 8px;
+    border: solid 1px black;
+    margin: 5px;
+}
